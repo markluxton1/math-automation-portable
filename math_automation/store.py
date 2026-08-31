@@ -3,6 +3,7 @@ from __future__ import annotations
 import datetime as dt
 import hashlib
 import json
+import os
 from pathlib import Path
 from typing import Any
 
@@ -40,7 +41,11 @@ class Store:
 
     def write_json(self, path: Path, data: Any) -> None:
         path.parent.mkdir(parents=True, exist_ok=True)
-        path.write_text(json.dumps(data, indent=2, sort_keys=True) + "\n")
+        temporary = path.with_name(f".{path.name}.{os.getpid()}.tmp")
+        with temporary.open("w") as handle:
+            handle.write(json.dumps(data, indent=2, sort_keys=True) + "\n")
+            handle.flush(); os.fsync(handle.fileno())
+        os.replace(temporary, path)
 
     def read_json(self, path: Path) -> dict[str, Any]:
         return json.loads(path.read_text())
@@ -48,7 +53,17 @@ class Store:
     def event(self, event: str, **data: Any) -> None:
         record = {"event": event, "time": now(), **data}
         with (self.root / "history" / "events.jsonl").open("a") as handle:
+            fcntl = None
+            try:
+                import fcntl as locking
+                fcntl = locking
+                fcntl.flock(handle.fileno(), fcntl.LOCK_EX)
+            except ImportError:
+                pass
             handle.write(json.dumps(record, sort_keys=True) + "\n")
+            handle.flush(); os.fsync(handle.fileno())
+            if fcntl is not None:
+                fcntl.flock(handle.fileno(), fcntl.LOCK_UN)
 
     def artifact_path(self, artifact_type: str, artifact_id: str) -> Path:
         return self.root / "artifacts" / artifact_type / f"{artifact_id}.json"

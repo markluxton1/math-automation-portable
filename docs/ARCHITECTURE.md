@@ -22,6 +22,21 @@ Structural validation checks references and lifecycle only; it does not certify 
 Deliberately absent: provider execution, canonical outlook, scheduler, swarm controller,
 voting, markets, pruning, automatic synthesis, quotas, and novelty triggers.
 
+## Execution layer
+
+`math_automation.swarm` is an execution layer, not a research authority. A persistent run
+spec plans stable jobs, contexts, and dispatches. It uses atomic JSON replacement and
+locked event appends; successful jobs are never re-run by `resume`. Failed attempts remain
+in a job's attempt history, while a later success becomes a new recorded attempt.
+
+Every attempt records intended context/artifact order, dispatch hash, provider/model,
+timestamps, status, raw response path/hash when present, and any observable transmitted
+dispatch hash. Material treatment fidelity is recorded as `observable` only when the
+transmitted text is available; otherwise it is explicitly `intended_only`.
+
+There is no built-in Sol Ultra adapter. The first-run target is recorded as configuration
+only; a provider/manual adapter must supply fresh isolated execution and returned text.
+
 ## CLI
 
 `python3 -m math_automation.cli --root STATE init --name NAME`

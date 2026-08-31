@@ -1,0 +1,15 @@
+{
+  "id": "RUN-QUARTIC-SOL-ULTRA-EXAMPLE",
+  "problem": "PROBLEM-QUARTIC-NEUTRAL-001",
+  "nodes": ["NODE-QUARTIC-01", "NODE-QUARTIC-02"],
+  "provider": "manual-sol-ultra-adapter-required",
+  "model": "Sol Ultra",
+  "concurrency": 8,
+  "retry_limit": 1,
+  "output_location": "runs/RUN-QUARTIC-SOL-ULTRA-EXAMPLE/outputs",
+  "treatment_policy": "independent fresh contexts; no archived STCI history unless explicitly selected",
+  "jobs": [
+    {"id": "ordinary", "node": "NODE-QUARTIC-01", "operation": "ordinary", "count": 24, "selected_artifacts": [], "independence": "independent"},
+    {"id": "explore", "node": "NODE-QUARTIC-02", "operation": "exploration", "count": 8, "selected_artifacts": [], "excluded_representations": ["REP-EXAMPLE-APIC"], "independence": "independent", "treatment_metadata": {"example_parameter": true}}
+  ]
+}
