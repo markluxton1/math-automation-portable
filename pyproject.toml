@@ -1,0 +1,8 @@
+[project]
+name = "math-automation-portable"
+version = "0.1.0"
+requires-python = ">=3.10"
+description = "Minimal portable filesystem-backed mathematical research machine"
+
+[project.scripts]
+math-auto = "math_automation.cli:main"

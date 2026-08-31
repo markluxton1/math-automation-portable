@@ -1,0 +1,8 @@
+{
+  "id": "PROBLEM-QUARTIC-NEUTRAL-001",
+  "type": "problem",
+  "payload": {
+    "statement": "Investigate whether a smooth rational quartic C subset P3 is a set-theoretic complete intersection. State the field and characteristic assumptions relevant to conclusions. Develop, test, and validate mathematical approaches to the problem and distinguish established literature results from new arguments."
+  },
+  "note": "Neutral fixture only. It imports no archived STCI outlook, evidence, literature, or representation."
+}
