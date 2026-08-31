@@ -1,3 +1,4 @@
+import json
 import tempfile
 import unittest
 from concurrent.futures import ThreadPoolExecutor
@@ -61,6 +62,30 @@ class SwarmTests(unittest.TestCase):
         self.assertEqual(job["status"], "RETRYABLE")
         self.assertEqual(job["attempts"][0]["failure"], "interrupted before result recording")
         self.assertIn(job_id, eligible)
+
+    def test_neutral_wave1_example_has_no_exploration_or_historical_representation(self):
+        example = Path("examples/sol_ultra_wave1_neutral.example.json")
+        spec = json.loads(example.read_text())
+        self.assertNotIn("APic", example.read_text())
+        self.assertEqual(sum(job.get("count", 1) for job in spec["jobs"]), 24)
+        self.assertTrue(all(job["operation"] == "ordinary" for job in spec["jobs"]))
+        self.assertTrue(all(not job.get("excluded_representations", []) for job in spec["jobs"]))
+        self.s.create_artifact("problem", "PROBLEM-QUARTIC-NEUTRAL-001", {"statement": "neutral quartic"})
+        for node in spec["nodes"]: self.s.create_node(node, "PROBLEM-QUARTIC-NEUTRAL-001")
+        self.w.create_spec(spec); result = self.w.dry_run(spec["id"])
+        self.assertEqual(result["operations"]["exploration"], 0)
+        for path in (self.s.root / "contexts").glob("*.material.json"):
+            context = self.s.read_json(path)
+            self.assertEqual(context["selected_artifacts"], [])
+            self.assertNotIn("research_outlook", str(context))
+            self.assertNotIn("archived stci", str(context).lower())
+
+    def test_wave2_template_requires_a_real_explicit_representation_id(self):
+        template = json.loads(Path("examples/sol_ultra_wave2_exploration.template.json").read_text())
+        self.assertEqual(template["jobs"][0]["excluded_representations"], ["REP-FROM-WAVE1-001"])
+        self.s.create_artifact("problem", "PROBLEM-QUARTIC-NEUTRAL-001", {"statement": "neutral quartic"})
+        self.s.create_node("NODE-QUARTIC-WAVE2-01", "PROBLEM-QUARTIC-NEUTRAL-001")
+        with self.assertRaises(KeyError): self.w.create_spec(template)
 
 
 if __name__ == "__main__": unittest.main()

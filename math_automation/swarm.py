@@ -45,6 +45,11 @@ class Swarm:
         if missing: raise ValueError(f"run spec missing: {sorted(missing)}")
         self.store.require("problem", spec["problem"])
         for node in spec["nodes"]: self.store.node(node)
+        for template in spec["jobs"]:
+            if template.get("operation") == "exploration":
+                excluded = template.get("excluded_representations", [])
+                if not excluded: raise ValueError("exploration jobs require explicit representation exclusions")
+                for representation in excluded: self.store.require("representation", representation)
         if spec["concurrency"] < 1 or spec["retry_limit"] < 0: raise ValueError("invalid execution limits")
         if "output_location" in spec and Path(spec["output_location"]).is_absolute():
             raise ValueError("output_location must be relative to the state root")

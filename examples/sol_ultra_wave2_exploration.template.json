@@ -1,0 +1,14 @@
+{
+  "id": "RUN-QUARTIC-WAVE2-EXPLORATION-TEMPLATE",
+  "problem": "PROBLEM-QUARTIC-NEUTRAL-001",
+  "nodes": ["NODE-QUARTIC-WAVE2-01"],
+  "provider": "manual-sol-ultra-adapter-required",
+  "model": "Sol Ultra",
+  "concurrency": 8,
+  "retry_limit": 1,
+  "output_location": "runs/RUN-QUARTIC-WAVE2-EXPLORATION-TEMPLATE/outputs",
+  "treatment_policy": "manual, later experiment configuration only; replace the placeholder with an actual representation ID created from reviewed Wave 1 output or deliberately supplied for this experiment",
+  "jobs": [
+    {"id": "explore", "node": "NODE-QUARTIC-WAVE2-01", "operation": "exploration", "count": 8, "selected_artifacts": [], "excluded_representations": ["REP-FROM-WAVE1-001"], "independence": "independent", "treatment_metadata": {"example_parameter": true}}
+  ]
+}

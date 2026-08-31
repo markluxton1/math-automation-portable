@@ -1,0 +1,15 @@
+{
+  "id": "RUN-QUARTIC-WAVE1-NEUTRAL-EXAMPLE",
+  "problem": "PROBLEM-QUARTIC-NEUTRAL-001",
+  "nodes": ["NODE-QUARTIC-WAVE1-01", "NODE-QUARTIC-WAVE1-02"],
+  "provider": "manual-sol-ultra-adapter-required",
+  "model": "Sol Ultra",
+  "concurrency": 8,
+  "retry_limit": 1,
+  "output_location": "runs/RUN-QUARTIC-WAVE1-NEUTRAL-EXAMPLE/outputs",
+  "treatment_policy": "independent fresh contexts from the neutral quartic problem and empty local state; no historical STCI evidence, literature, representations, exclusions, or prior outputs",
+  "jobs": [
+    {"id": "ordinary-a", "node": "NODE-QUARTIC-WAVE1-01", "operation": "ordinary", "count": 12, "selected_artifacts": [], "independence": "independent"},
+    {"id": "ordinary-b", "node": "NODE-QUARTIC-WAVE1-02", "operation": "ordinary", "count": 12, "selected_artifacts": [], "independence": "independent"}
+  ]
+}

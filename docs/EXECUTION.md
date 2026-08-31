@@ -13,9 +13,25 @@ context, dispatch, and invocation-ready record without provider calls or fake re
 attempt is preserved as a failed attempt before it becomes eligible to retry. This repository ships
 no provider adapter. `run-result` records an externally collected output.
 
-The supplied Sol Ultra example is configuration, not a recommended ordinary/exploration
-ratio. It requires creating the neutral problem, local nodes, and any selected representation
-artifacts first. It neither imports archived STCI history nor launches a model.
+The two Sol Ultra files are experiment configuration, not an ordinary/exploration ratio
+recommendation. [Wave 1](../examples/sol_ultra_wave1_neutral.example.json) is a 24-job,
+ordinary-only, independent fresh swarm. It requires only the neutral problem and fresh empty
+nodes; it has no selected evidence, literature, representations, exclusions, archived STCI
+state, or prior outputs.
+
+[Wave 2](../examples/sol_ultra_wave2_exploration.template.json) is deliberately only a later
+template. It cannot be instantiated until a human has reviewed Wave 1 and created actual
+representation artifacts (or deliberately supplied them for the new experiment), replacing
+`REP-FROM-WAVE1-001`. It does not fabricate a representation or imply that Wave 2 must occur.
+
+Wave 1 asks what representations emerge spontaneously from independent fresh research calls.
+Wave 2 asks whether explicit open-ended exclusion can produce representational movement away
+from representations that actually emerged in Wave 1.
+
+This staging is experiment configuration, not a scheduler, automatic exploration trigger,
+iterative-exclusion workflow, diversity threshold, or a requirement that every research run
+have two waves. A human or later explicit run specification decides whether Wave 2 occurs and
+which representation IDs it references.
 
 Provider integration must remain outside mathematical state and must document the freshness,
 wrapping, and transmitted-text observability of its actual execution surface.

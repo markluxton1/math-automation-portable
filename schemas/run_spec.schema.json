@@ -28,7 +28,16 @@
           "excluded_representations": {"type": "array", "items": {"type": "string"}},
           "independence": {"enum": ["independent", "downstream"]},
           "treatment_metadata": {"type": "object"}
-        }
+        },
+        "allOf": [
+          {
+            "if": {"properties": {"operation": {"const": "exploration"}}},
+            "then": {
+              "required": ["excluded_representations"],
+              "properties": {"excluded_representations": {"minItems": 1}}
+            }
+          }
+        ]
       }
     }
   },
